@@ -12,7 +12,7 @@ QGC_SRC=$(readlink -f $1)
 
 QGC_CUSTOM_APP_NAME="${QGC_CUSTOM_APP_NAME:-QGroundControl}"
 QGC_CUSTOM_GENERIC_NAME="${QGC_CUSTOM_GENERIC_NAME:-Ground Control Station}"
-QGC_CUSTOM_BINARY_NAME="${QGC_CUSTOM_BINARY_NAME:-QGroundControl}"
+QGC_CUSTOM_BINARY_NAME="RTRMissionControl"
 QGC_CUSTOM_LINUX_START_SH="${QGC_CUSTOM_LINUX_START_SH:-${QGC_SRC}/deploy/qgroundcontrol-start.sh}"
 QGC_CUSTOM_APP_ICON="${QGC_CUSTOM_APP_ICON:-${QGC_SRC}/resources/icons/qgroundcontrol.png}"
 QGC_CUSTOM_APP_ICON_NAME="${QGC_CUSTOM_APP_ICON_NAME:-QGroundControl}"
@@ -68,11 +68,11 @@ cp ${QGC_CUSTOM_APP_ICON} ${APPDIR}/
 cat > ./QGroundControl.desktop <<\EOF
 [Desktop Entry]
 Type=Application
-Name=${QGC_CUSTOM_APP_NAME}
+Name=RTR Mission Control
 GenericName=${QGC_CUSTOM_GENERIC_NAME}
 Comment=UAS ground control station
 Icon=${QGC_CUSTOM_APP_ICON_NAME}
-Exec=AppRun
+Exec=rtrmissioncontrol
 Terminal=false
 Categories=Utility;
 Keywords=computer;
