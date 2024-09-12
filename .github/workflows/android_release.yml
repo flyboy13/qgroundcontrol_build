@@ -34,10 +34,10 @@ jobs:
        include:
          - architecture: 32bits
            eabi: armeabi-v7a
-           ARTIFACT: QGroundControl32.apk
+           ARTIFACT: RTRMissionControl32.apk
          - architecture: 64bits
            eabi: arm64-v8a
-           ARTIFACT: QGroundControl64.apk
+           ARTIFACT: RTRMissionControl64.apk
 
     steps:
       - name: Checkout repo
@@ -153,18 +153,18 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
 
-      - name: Upload build to S3 Bucket
-        if:                 github.event_name == 'push'
-        working-directory:  ${{ runner.temp }}/shadow_build_dir/package
-        run: |
-              aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-              aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              aws s3 cp ${{ matrix.ARTIFACT }} s3://qgroundcontrol/builds/${{ github.ref_name }}/${{ matrix.ARTIFACT }} --region us-west-2 --acl public-read
+      # - name: Upload build to S3 Bucket
+      #   if:                 github.event_name == 'push'
+      #   working-directory:  ${{ runner.temp }}/shadow_build_dir/package
+      #   run: |
+      #         aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #         aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #         aws s3 cp ${{ matrix.ARTIFACT }} s3://qgroundcontrol/builds/${{ github.ref_name }}/${{ matrix.ARTIFACT }} --region us-west-2 --acl public-read
 
-      - name: Upload tagged stable build to S3 latest Bucket
-        if:                 github.event_name == 'push' && github.ref_type == 'tag'
-        working-directory:  ${{ runner.temp }}/shadow_build_dir/package
-        run: |
-              aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-              aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              aws s3 cp ${{ matrix.ARTIFACT }} s3://qgroundcontrol/latest/${{ matrix.ARTIFACT }} --region us-west-2 --acl public-read
+      # - name: Upload tagged stable build to S3 latest Bucket
+      #   if:                 github.event_name == 'push' && github.ref_type == 'tag'
+      #   working-directory:  ${{ runner.temp }}/shadow_build_dir/package
+      #   run: |
+      #         aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #         aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #         aws s3 cp ${{ matrix.ARTIFACT }} s3://qgroundcontrol/latest/${{ matrix.ARTIFACT }} --region us-west-2 --acl public-read

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(QGroundControl LANGUAGES C CXX)
+project(RTRMissionControl LANGUAGES C CXX)
 
 include(GNUInstallDirs)
 
@@ -39,7 +39,7 @@ set(COPYRIGHT "Copyright (c) 2018 QGroundControl. All rights reserved.")
 set(IDENTIFIER "io.mavlink.qgroundcontrol")
 
 add_definitions(
-	-DQGC_APPLICATION_NAME="QGroundControl"
+	-DQGC_APPLICATION_NAME="RTR Mission Control"
 	-DQGC_ORG_NAME="QGroundControl.org"
 	-DQGC_ORG_DOMAIN="org.qgroundcontrol"
 	)
@@ -197,16 +197,16 @@ if(BUILD_TESTING)
 endif()
 
 if(ANDROID)
-	add_library(QGroundControl SHARED ${QGC_RESOURCES})
+	add_library(RTRMissionControl SHARED ${QGC_RESOURCES})
 else()
-	add_executable(QGroundControl ${QGC_RESOURCES})
+	add_executable(RTRMissionControl ${QGC_RESOURCES})
 endif()
 
-target_link_libraries(QGroundControl PRIVATE qgc)
+target_link_libraries(RTRMissionControl PRIVATE qgc)
 
 # Files/directories to install
 install(
-    TARGETS QGroundControl
+    TARGETS RTRMissionControl
     DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 install(
@@ -233,11 +233,11 @@ install(
 )
 
 if(BUILD_TESTING)
-        target_link_libraries(QGroundControl PRIVATE Qt5::Test)
+        target_link_libraries(RTRMissionControl PRIVATE Qt5::Test)
 endif()
 
 if(NOT QT_MKSPEC MATCHES "winrt")
-	target_link_libraries(QGroundControl
+	target_link_libraries(RTRMissionControl
 		PUBLIC
 			Qt5::SerialPort
 		)

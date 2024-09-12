@@ -2,7 +2,7 @@
 <component type="desktop-application">
   <id>org.mavlink.qgroundcontrol</id>
 
-  <name>QGroundControl</name>
+  <name>RTR Mission Control</name>
   <summary>UAS ground control station</summary>
   <developer_name>Dronecode Project, Inc.</developer_name>
 
@@ -45,6 +45,6 @@
   </categories>
 
   <provides>
-    <binary>QGroundControl</binary>
+    <binary>RTRMissionControl</binary>
   </provides>
 </component>

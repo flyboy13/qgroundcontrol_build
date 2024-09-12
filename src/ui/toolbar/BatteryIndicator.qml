@@ -29,6 +29,7 @@ Item {
 
     property var _activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
 
+
     Row {
         id:             batteryIndicatorRow
         anchors.top:    parent.top
@@ -100,13 +101,15 @@ Item {
                 fillMode:           Image.PreserveAspectFit
                 color:              getBatteryColor()
             }
+            ColumnLayout {              
+                 id:                     batteryInfoColumn
+                anchors.verticalCenter: parent.verticalCenter           
+                anchors.leftMargin:     ScreenTools.defaultFontPixelWidth / 2
 
-            QGCLabel {
-                text:                   getBatteryPercentageText()
-                font.pointSize:         ScreenTools.mediumFontPointSize
-                color:                  getBatteryColor()
-                anchors.verticalCenter: parent.verticalCenter
-            }
+
+                QGCLabel { text: qsTr("Voltage: ") + battery.voltage.valueString + battery.voltage.units; visible: !isNaN(battery.voltage.rawValue) } // Added Voltage
+                QGCLabel { text: qsTr("Consumed: ") + battery.mahConsumed.valueString + battery.mahConsumed.units; visible: !isNaN(battery.mahConsumed.rawValue) }
+            }            
         }
     }
 

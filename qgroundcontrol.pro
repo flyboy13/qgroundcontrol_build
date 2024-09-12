@@ -27,7 +27,7 @@ message(Qt version $$[QT_VERSION])
 
 include(QGCCommon.pri)
 
-TARGET   = QGroundControl
+TARGET   = RTRMissionControl
 TEMPLATE = app
 QGCROOT  = $$PWD
 
@@ -60,8 +60,8 @@ WindowsBuild {
 # Branding
 #
 
-QGC_APP_NAME        = "QGroundControl"
-QGC_ORG_NAME        = "QGroundControl.org"
+QGC_APP_NAME        = "RTR Mission Control"
+QGC_ORG_NAME        = "realtimerobotics"
 QGC_ORG_DOMAIN      = "org.qgroundcontrol"
 QGC_APP_DESCRIPTION = "Open source ground control app provided by QGroundControl dev team"
 QGC_APP_COPYRIGHT   = "Copyright (C) 2019 QGroundControl Development Team. All rights reserved."
@@ -356,14 +356,22 @@ CustomBuild {
         RESOURCES += $$PWD/resources/InstrumentValueIcons/InstrumentValueIcons.qrc
     }
 } else {
-    DEFINES += QGC_APPLICATION_NAME=\"\\\"QGroundControl\\\"\"
-    DEFINES += QGC_ORG_NAME=\"\\\"QGroundControl.org\\\"\"
+# DEFINES += QGC_APPLICATION_NAME=\"\\\"QGroundControl\\\"\"
+#    DEFINES += QGC_ORG_NAME=\"\\\"QGroundControl.org\\\"\"
+#    DEFINES += QGC_ORG_DOMAIN=\"\\\"org.qgroundcontrol\\\"\"
+#   RESOURCES += \
+#        $$PWD/qgroundcontrol.qrc \
+#        $$PWD/qgcresources.qrc \
+#        $$PWD/qgcimages.qrc \
+#        $$PWD/resources/InstrumentValueIcons/InstrumentValueIcons.qrc \
+    DEFINES += QGC_APPLICATION_NAME=\"\\\"RTR Mission Control\\\"\"
+    DEFINES += QGC_ORG_NAME=\"\\\"RTRMissionControl.org\\\"\"
     DEFINES += QGC_ORG_DOMAIN=\"\\\"org.qgroundcontrol\\\"\"
     RESOURCES += \
         $$PWD/qgroundcontrol.qrc \
         $$PWD/qgcresources.qrc \
         $$PWD/qgcimages.qrc \
-        $$PWD/resources/InstrumentValueIcons/InstrumentValueIcons.qrc \
+            $$PWD/resources/InstrumentValueIcons/InstrumentValueIcons.qrc \
 }
 
 #
