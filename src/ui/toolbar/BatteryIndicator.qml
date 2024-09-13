@@ -42,15 +42,8 @@ Item {
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
                 sourceComponent:    batteryVisual
-
                 property var battery: object
             }
-        }
-    }
-    MouseArea {
-        anchors.fill:   parent
-        onClicked: {
-            mainWindow.showIndicatorPopup(_root, batteryPopup)
         }
     }
 
@@ -77,21 +70,6 @@ Item {
                 }
             }
 
-            function getBatteryPercentageText() {
-                if (!isNaN(battery.percentRemaining.rawValue)) {
-                    if (battery.percentRemaining.rawValue > 98.9) {
-                        return qsTr("100%")
-                    } else {
-                        return battery.percentRemaining.valueString + battery.percentRemaining.units
-                    }
-                } else if (!isNaN(battery.voltage.rawValue)) {
-                    return battery.voltage.valueString + battery.voltage.units
-                } else if (battery.chargeState.rawValue !== MAVLink.MAV_BATTERY_CHARGE_STATE_UNDEFINED) {
-                    return battery.chargeState.enumStringValue
-                }
-                return ""
-            }
-
             QGCColoredImage {
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
@@ -101,53 +79,31 @@ Item {
                 fillMode:           Image.PreserveAspectFit
                 color:              getBatteryColor()
             }
-            ColumnLayout {              
-                 id:                     batteryInfoColumn
-                anchors.verticalCenter: parent.verticalCenter           
-                anchors.leftMargin:     ScreenTools.defaultFontPixelWidth / 2
-
-
-                QGCLabel { text: qsTr("Voltage: ") + battery.voltage.valueString + battery.voltage.units; visible: !isNaN(battery.voltage.rawValue) } // Added Voltage
-                QGCLabel { text: qsTr("Consumed: ") + battery.mahConsumed.valueString + battery.mahConsumed.units; visible: !isNaN(battery.mahConsumed.rawValue) }
-            }            
+            Loader {
+                anchors.top:    parent.top
+                anchors.bottom: parent.bottom
+                anchors.left:   QGCLabel.right
+                sourceComponent: batteryPopup // Now displayed without click
+                property var battery: object
+            }
         }
     }
-
     Component {
         id: batteryValuesAvailableComponent
 
         QtObject {
             property bool functionAvailable:        battery.function.rawValue !== MAVLink.MAV_BATTERY_FUNCTION_UNKNOWN
-            property bool temperatureAvailable:     !isNaN(battery.temperature.rawValue)
             property bool currentAvailable:         !isNaN(battery.current.rawValue)
             property bool mahConsumedAvailable:     !isNaN(battery.mahConsumed.rawValue)
-            property bool timeRemainingAvailable:   !isNaN(battery.timeRemaining.rawValue)
-            property bool chargeStateAvailable:     battery.chargeState.rawValue !== MAVLink.MAV_BATTERY_CHARGE_STATE_UNDEFINED
         }
     }
 
     Component {
         id: batteryPopup
-
-        Rectangle {
-            width:          mainLayout.width   + mainLayout.anchors.margins * 2
-            height:         mainLayout.height  + mainLayout.anchors.margins * 2
-            radius:         ScreenTools.defaultFontPixelHeight / 2
-            color:          qgcPal.window
-            border.color:   qgcPal.text
-
             ColumnLayout {
                 id:                 mainLayout
-                anchors.margins:    ScreenTools.defaultFontPixelWidth
-                anchors.top:        parent.top
-                anchors.right:      parent.right
-                spacing:            ScreenTools.defaultFontPixelHeight
-
-                QGCLabel {
-                    Layout.alignment:   Qt.AlignCenter
-                    text:               qsTr("Battery Status")
-                    font.family:        ScreenTools.demiboldFontFamily
-                }
+                anchors.verticalCenter: parent.verticalCenter           
+                anchors.leftMargin:     ScreenTools.defaultFontPixelWidth / 2
 
                 RowLayout {
                     spacing: ScreenTools.defaultFontPixelWidth
@@ -167,15 +123,8 @@ Item {
 
                                     property var battery: object
                                 }
-
-                                QGCLabel { text: qsTr("Battery %1").arg(object.id.rawValue) }
-                                QGCLabel { text: qsTr("Charge State");                          visible: batteryValuesAvailable.chargeStateAvailable }
-                                QGCLabel { text: qsTr("Remaining");                             visible: batteryValuesAvailable.timeRemainingAvailable }
-                                QGCLabel { text: qsTr("Remaining") }
                                 QGCLabel { text: qsTr("Voltage") }
                                 QGCLabel { text: qsTr("Consumed");                              visible: batteryValuesAvailable.mahConsumedAvailable }
-                                QGCLabel { text: qsTr("Temperature");                           visible: batteryValuesAvailable.temperatureAvailable }
-                                QGCLabel { text: qsTr("Function");                              visible: batteryValuesAvailable.functionAvailable }
                             }
                         }
                     }
@@ -195,20 +144,13 @@ Item {
 
                                     property var battery: object
                                 }
-
-                                QGCLabel { text: "" }
-                                QGCLabel { text: object.chargeState.enumStringValue;                                        visible: batteryValuesAvailable.chargeStateAvailable }
-                                QGCLabel { text: object.timeRemainingStr.value;                                             visible: batteryValuesAvailable.timeRemainingAvailable }
-                                QGCLabel { text: object.percentRemaining.valueString + " " + object.percentRemaining.units }
                                 QGCLabel { text: object.voltage.valueString + " " + object.voltage.units }
                                 QGCLabel { text: object.mahConsumed.valueString + " " + object.mahConsumed.units;           visible: batteryValuesAvailable.mahConsumedAvailable }
-                                QGCLabel { text: object.temperature.valueString + " " + object.temperature.units;           visible: batteryValuesAvailable.temperatureAvailable }
-                                QGCLabel { text: object.function.enumStringValue;                                           visible: batteryValuesAvailable.functionAvailable }
                             }
                         }
                     }
                 }
             }
-        }
+        
     }
 }
