@@ -137,6 +137,11 @@ jobs:
       - name: ccache post-run
         run: ccache -s
 
+      - name: List all files in shadow_build_dir
+        run: |
+          ls -R ${{ runner.temp }}/shadow_build_dir/package/
+
+
       - name: Save artifact
         uses: actions/upload-artifact@master
         with:
